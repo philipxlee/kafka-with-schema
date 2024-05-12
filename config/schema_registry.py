@@ -1,5 +1,7 @@
 from confluent_kafka.schema_registry import SchemaRegistryClient, Schema
 import configparser
+import logging
+logging.basicConfig(level=logging.INFO)
 
 """
 This class is responsible for loading the Schema Registry configuration from a configuration file.
@@ -23,7 +25,15 @@ class KafkaSchemaRegistry:
         self._config = configparser.ConfigParser()
         self._schema_client = None
         self._schema = ""
+        self.logger = logging.getLogger(__name__)
         self._configure_schema_registry()
+
+    def register_schema(self, subject: str, schema: str) -> int:
+        """Registers the Schema with the Schema Registry."""
+        schema_object = Schema(schema, self.SCHEMA_TYPE)
+        schema_id = self._schema_client.register_schema(subject, schema_object)
+        self.logger.info("Schema successfully registered.")
+        return schema_id
 
     @property
     def schema_client(self) -> SchemaRegistryClient:
@@ -53,9 +63,5 @@ class KafkaSchemaRegistry:
                 "basic.auth.user.info": schema_key + ":" + schema_secret,
             }
         )
+        self.logger.info("Schema Registry client initialized successfully.")
 
-    def register_schema(self, subject: str, schema: str) -> int:
-        """Registers the Schema with the Schema Registry."""
-        schema_object = Schema(schema, self.SCHEMA_TYPE)
-        schema_id = self._schema_client.register_schema(subject, schema_object)
-        return schema_id
