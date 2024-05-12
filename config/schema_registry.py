@@ -1,4 +1,4 @@
-from confluent_kafka.schema_registry import SchemaRegistryClient
+from confluent_kafka.schema_registry import SchemaRegistryClient, Schema
 import configparser
 
 """
@@ -12,9 +12,11 @@ class KafkaSchemaRegistry:
     SCHEMA_CONFIG_API_PATH = "../resources/schema_config.ini"
     SCHEMA_PATH = "../resources/schema.ini"
     SCHEMA_HEADING = "Schema"
-    SCHEMA_KEY = "avro_schema_v1"
+    SCHEMA_KEY = "key"
+    SCHEMA_SECRET = "secret"
     SCHEMA_CONFIG_HEADING = "SchemaRegistry"
     SCHEMA_CONFIG_KEY = "url"
+    SCHEMA_TYPE = "AVRO"
 
     def __init__(self) -> None:
         """Initializes the KafkaSchemaRegistry object."""
@@ -34,14 +36,26 @@ class KafkaSchemaRegistry:
         return self._schema
 
     @schema.setter
-    def schema(self, schema_path: str, schema_heading: str, schema_key: str) -> None:
+    def schema(self, schema_path: str) -> None:
         """Sets the Schema from a specified file."""
-        self._config.read(schema_path)
-        self._schema = self._config.get(schema_heading, schema_key)
+        with open(schema_path, "r") as schema_file:
+            self._schema = schema_file.read()
 
     def _configure_schema_registry(self) -> None:
         """Initializes the Schema Registry client."""
         self._config.read(self.SCHEMA_CONFIG_API_PATH)
+        schema_key = self._config.get(self.SCHEMA_HEADING, self.SCHEMA_KEY)
+        schema_secret = self._config.get(self.SCHEMA_HEADING, self.SCHEMA_SECRET)
         schema_registry = self._config.get(self.SCHEMA_CONFIG_HEADING, self.SCHEMA_CONFIG_KEY)
-        self._schema_client = SchemaRegistryClient({"url": schema_registry})
+        self._schema_client = SchemaRegistryClient(
+            {
+                "url": schema_registry,
+                "basic.auth.user.info": schema_key + ":" + schema_secret,
+            }
+        )
 
+    def register_schema(self, subject: str, schema: str) -> int:
+        """Registers the Schema with the Schema Registry."""
+        schema_object = Schema(schema, self.SCHEMA_TYPE)
+        schema_id = self._schema_client.register_schema(subject, schema_object)
+        return schema_id

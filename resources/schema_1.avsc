@@ -1,0 +1,23 @@
+{
+  "type": "record",
+  "name": "gym_users",
+  "namespace": "com.mycorp.mynamespace",
+  "doc": "Sample schema to help you get started.",
+  "fields": [
+    {
+      "name": "age",
+      "type": "int",
+      "doc": "The int type is a 32-bit signed integer."
+    },
+    {
+      "name": "weight",
+      "type": "double",
+      "doc": "The double type is a double precision (64-bit) IEEE 754 floating-point number."
+    },
+    {
+      "name": "favorite_exercise",
+      "type": "string",
+      "doc": "The string is a Unicode character sequence."
+    }
+  ]
+}

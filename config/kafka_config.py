@@ -1,4 +1,5 @@
 import logging
+
 logging.basicConfig(level=logging.INFO)
 
 
@@ -26,7 +27,9 @@ class KafkaConfig:
             for line in fh:
                 line = line.strip()
                 if len(line) != 0 and line[0] != self.COMMENT_INDICATION:
-                    parameter, value = line.strip().split(self.EQUAL_SEPARATOR, self.SPLIT_LIMIT)
+                    parameter, value = line.strip().split(
+                        self.EQUAL_SEPARATOR, self.SPLIT_LIMIT
+                    )
                     config[parameter] = value.strip()
         self.logger.info("Kafka configuration loaded successfully.")
         return config
