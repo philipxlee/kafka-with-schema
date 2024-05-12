@@ -1,1 +1,2 @@
-resources/client.properties
+/resources/client.properties
+/resources/schema_config.ini
