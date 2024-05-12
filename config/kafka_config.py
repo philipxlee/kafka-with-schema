@@ -1,4 +1,6 @@
 import logging
+logging.basicConfig(level=logging.INFO)
+
 
 """
 This class is responsible for loading the Kafka configuration from the client.properties file.
@@ -9,6 +11,9 @@ It reads the configuration from the file and returns it as a dictionary.
 class KafkaConfig:
 
     KAFKA_CLIENT_PATH = "../resources/client.properties"
+    COMMENT_INDICATION = "#"
+    EQUAL_SEPARATOR = "="
+    SPLIT_LIMIT = 1
 
     def __init__(self):
         """Initializes the KafkaConfig object."""
@@ -20,8 +25,8 @@ class KafkaConfig:
         with open(self.KAFKA_CLIENT_PATH) as fh:
             for line in fh:
                 line = line.strip()
-                if len(line) != 0 and line[0] != "#":
-                    parameter, value = line.strip().split("=", 1)
+                if len(line) != 0 and line[0] != self.COMMENT_INDICATION:
+                    parameter, value = line.strip().split(self.EQUAL_SEPARATOR, self.SPLIT_LIMIT)
                     config[parameter] = value.strip()
         self.logger.info("Kafka configuration loaded successfully.")
         return config
