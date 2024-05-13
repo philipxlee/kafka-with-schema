@@ -5,16 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="161ecc60-34bd-4c9c-b73e-f1c3cd707888" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/kafka-with-schema.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/kafka-with-schema.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/kafka_admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/admin/kafka_admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/kafka_config.py" beforeDir="false" afterPath="$PROJECT_DIR$/config/kafka_config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/schema_registry.py" beforeDir="false" afterPath="$PROJECT_DIR$/config/schema_registry.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/producer/abstract_producer.py" beforeDir="false" afterPath="$PROJECT_DIR$/producer/abstract_producer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/producer/avro_producer.py" beforeDir="false" afterPath="$PROJECT_DIR$/producer/avro_producer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,7 +53,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1715608126621</updated>
-      <workItem from="1715608128286" duration="670000" />
+      <workItem from="1715608128286" duration="1731000" />
     </task>
     <servers />
   </component>
@@ -70,6 +61,6 @@
     <option name="version" value="3" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/kafka_with_schema$avro_producer.coverage" NAME="avro_producer Coverage Results" MODIFIED="1715608178939" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/producer" />
+    <SUITE FILE_PATH="coverage/kafka_with_schema$avro_producer.coverage" NAME="avro_producer Coverage Results" MODIFIED="1715609469125" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/producer" />
   </component>
 </project>
