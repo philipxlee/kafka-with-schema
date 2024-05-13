@@ -1,4 +1,3 @@
-
 class KafkaConsumer:
 
     def __init__(self, topic, group_id):

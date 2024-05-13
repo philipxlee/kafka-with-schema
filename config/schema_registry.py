@@ -1,6 +1,7 @@
 from confluent_kafka.schema_registry import SchemaRegistryClient, Schema
 import configparser
 import logging
+
 logging.basicConfig(level=logging.INFO)
 
 """
@@ -11,14 +12,14 @@ It reads the configuration from the file and initializes the Schema Registry cli
 
 class KafkaSchemaRegistry:
 
-    SCHEMA_CONFIG_API_PATH = "../resources/schema_config.ini"
-    SCHEMA_PATH = "../resources/schema.ini"
-    SCHEMA_HEADING = "Schema"
-    SCHEMA_KEY = "key"
-    SCHEMA_SECRET = "secret"
-    SCHEMA_CONFIG_HEADING = "SchemaRegistry"
-    SCHEMA_CONFIG_KEY = "url"
-    SCHEMA_TYPE = "AVRO"
+    SCHEMA_CONFIG_API_PATH: str = "../resources/schema_config.ini"
+    SCHEMA_PATH: str = "../resources/schema.ini"
+    SCHEMA_HEADING: str = "Schema"
+    SCHEMA_KEY: str = "key"
+    SCHEMA_SECRET: str = "secret"
+    SCHEMA_CONFIG_HEADING: str = "SchemaRegistry"
+    SCHEMA_CONFIG_KEY: str = "url"
+    SCHEMA_TYPE: str = "AVRO"
 
     def __init__(self) -> None:
         """Initializes the KafkaSchemaRegistry object."""
@@ -64,4 +65,3 @@ class KafkaSchemaRegistry:
             }
         )
         self.logger.info("Schema Registry client initialized successfully.")
-
