@@ -16,8 +16,8 @@ class AvroProducer(AbstractProducer):
     @override
     def produce(self, topic, key, value):
         """Produces a message to the specified Kafka topic."""
-        self._producer.produce(topic=topic, key=key, value=value)
-        self._producer.flush()
+        self.producer.produce(topic=topic, key=key, value=value)
+        self.producer.flush()
         print(f"Message sent to topic {topic} successfully.")
 
 

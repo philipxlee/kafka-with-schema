@@ -1,16 +1,16 @@
 from confluent_kafka.schema_registry import SchemaRegistryClient, Schema
+from confluent_kafka.schema_registry.error import SchemaRegistryError
 import configparser
 import logging
 
 logging.basicConfig(level=logging.INFO)
 
-"""
-This class is responsible for loading the Schema Registry configuration from a configuration file.
-It reads the configuration from the file and initializes the Schema Registry client.
-"""
-
 
 class KafkaSchemaRegistry:
+    """
+    This class is responsible for loading the Schema Registry configuration from a configuration file.
+    It reads the configuration from the file and initializes the Schema Registry client.
+    """
 
     SCHEMA_CONFIG_API_PATH: str = "../resources/schema_config.ini"
     SCHEMA_PATH: str = "../resources/schema.ini"
@@ -31,10 +31,25 @@ class KafkaSchemaRegistry:
 
     def register_schema(self, subject: str, schema: str) -> int:
         """Registers the Schema with the Schema Registry."""
-        schema_object = Schema(schema, self.SCHEMA_TYPE)
-        schema_id = self._schema_client.register_schema(subject, schema_object)
-        self.logger.info("Schema successfully registered.")
-        return schema_id
+        try:
+            schema_object = Schema(schema, self.SCHEMA_TYPE)
+            schema_id = self._schema_client.register_schema(subject, schema_object)
+            self.logger.info("Schema successfully registered.")
+            return schema_id
+        except SchemaRegistryError as e:
+            self.logger.error(f"Error registering schema: {e}")
+            exit(1)
+
+    def set_registry_compatability(
+        self, subject: str, compatibility_level: str
+    ) -> None:
+        """Sets the compatibility level for the Schema Registry."""
+        try:
+            self._schema_client.set_compatibility(subject, compatibility_level)
+            self.logger.info("Compatibility level updated successfully.")
+        except SchemaRegistryError as e:
+            self.logger.error(f"Error setting compatibility level: {e}")
+            exit(1)
 
     @property
     def schema_client(self) -> SchemaRegistryClient:
@@ -49,8 +64,12 @@ class KafkaSchemaRegistry:
     @schema.setter
     def schema(self, schema_path: str) -> None:
         """Sets the Schema from a specified file."""
-        with open(schema_path, "r") as schema_file:
-            self._schema = schema_file.read()
+        try:
+            with open(schema_path, "r") as schema_file:
+                self._schema = schema_file.read()
+        except FileNotFoundError as e:
+            self.logger.error(f"Error reading schema file: {e}")
+            exit(1)
 
     def _configure_schema_registry(self) -> None:
         """Initializes the Schema Registry client."""

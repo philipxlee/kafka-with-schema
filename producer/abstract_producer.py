@@ -21,3 +21,13 @@ class AbstractProducer(ABC):
     def produce(self, topic, key, value):
         """Produces a message to the specified Kafka topic."""
         pass
+
+    @property
+    def config(self):
+        """Gets the Kafka configuration."""
+        return self._config
+
+    @property
+    def producer(self):
+        """Gets the Kafka producer."""
+        return self._producer
