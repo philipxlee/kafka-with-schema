@@ -32,6 +32,3 @@ class KafkaConfig:
         self.logger.info("Kafka configuration loaded successfully.")
         return config
 
-
-kafka_config = KafkaConfig()
-kafka_config.get_kafka_config()

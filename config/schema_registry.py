@@ -29,21 +29,19 @@ class KafkaSchemaRegistry:
         self.logger = logging.getLogger(__name__)
         self._configure_schema_registry()
 
-    def register_schema(self, subject: str, schema: str) -> int:
+    def register_schema(self, topic_name: str, schema: str) -> int:
         """Registers the Schema with the Schema Registry."""
         try:
             schema_object = Schema(schema, self.SCHEMA_TYPE)
-            schema_id = self._schema_client.register_schema(subject, schema_object)
+            schema_id = self._schema_client.register_schema(topic_name, schema_object)
             self.logger.info("Schema successfully registered.")
             return schema_id
         except SchemaRegistryError as e:
             self.logger.error(f"Error registering schema: {e}")
             exit(1)
 
-    def set_registry_compatability(
-        self, subject: str, compatibility_level: str
-    ) -> None:
-        """Sets the compatibility level for the Schema Registry."""
+    def set_registry_compatability(self, subject: str, compatibility_level: str) -> None:
+        """Sets the compatibility level for the Schema Registry, such as backward compatibility"""
         try:
             self._schema_client.set_compatibility(subject, compatibility_level)
             self.logger.info("Compatibility level updated successfully.")
