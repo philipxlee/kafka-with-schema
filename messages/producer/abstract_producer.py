@@ -17,6 +17,11 @@ class AbstractProducer(ABC):
         self._producer = Producer(self.config)
 
     @abstractmethod
+    def configure_producer_schema(self, topic_name: str, schema: str, compatibility_level: str):
+        """Creates a schema registry client."""
+        pass
+
+    @abstractmethod
     def produce(self, topic, key, value):
         """Produces a message to the specified Kafka topic."""
         pass
