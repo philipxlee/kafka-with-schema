@@ -65,4 +65,3 @@ class AvroProducer(AbstractProducer):
         schema_str = self._schema_registry.get_schema_str()
         self._avro_serializer = AvroSerializer(self._schema_registry_client, schema_str)
         self._string_serializer = StringSerializer("utf-8")
-

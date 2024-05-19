@@ -41,7 +41,9 @@ class KafkaAdmin:
         if not self.topic_exists(topic_name):
             new_topic = NewTopic(topic_name, partitions)
             res = self._admin.create_topics([new_topic])
-            concurrent.futures.wait(res.values())  # Important for create_topics thread to complete
+            concurrent.futures.wait(
+                res.values()
+            )  # Important for create_topics thread to complete
             self._logger.info(f"Topic '{topic_name}' created successfully.")
         else:
             self._logger.warning(f"Topic '{topic_name}' already exists.")
@@ -57,5 +59,3 @@ class KafkaAdmin:
             self._logger.info(f"Topic '{topic_name}' deleted successfully.")
         else:
             self._logger.warning(f"Topic '{topic_name}' does not exist.")
-
-    

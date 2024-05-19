@@ -13,10 +13,12 @@ class KafkaSchemaRegistry:
     It reads the configuration from the file and initializes the Schema Registry client.
     """
 
-    SCHEMA_CONFIG_API_PATH: str = os.path.join(os.path.dirname(__file__), '..', 'resources',
-                                               'schema_config.ini')
-    SCHEMA_PATH: str = os.path.join(os.path.dirname(__file__), '..', 'resources',
-                                    'schema.ini')
+    SCHEMA_CONFIG_API_PATH: str = os.path.join(
+        os.path.dirname(__file__), "..", "resources", "schema_config.ini"
+    )
+    SCHEMA_PATH: str = os.path.join(
+        os.path.dirname(__file__), "..", "resources", "schema.ini"
+    )
     SCHEMA_HEADING: str = "Schema"
     SCHEMA_KEY: str = "key"
     SCHEMA_SECRET: str = "secret"
@@ -38,8 +40,7 @@ class KafkaSchemaRegistry:
         try:
             schema_object = Schema(schema, self.SCHEMA_TYPE)
             schema_id = self._schema_client.register_schema(
-                subject_name=topic_name,
-                schema=schema_object
+                subject_name=topic_name, schema=schema_object
             )
             self.logger.info("Schema successfully registered.")
             return schema_id
@@ -47,7 +48,9 @@ class KafkaSchemaRegistry:
             self.logger.error(f"Error registering schema: {e}")
             exit(1)
 
-    def set_registry_compatability(self, subject: str, compatibility_level: str) -> None:
+    def set_registry_compatability(
+        self, subject: str, compatibility_level: str
+    ) -> None:
         """Sets the compatibility level for the Schema Registry, such as backward compatibility"""
         try:
             self._schema_client.set_compatibility(subject, compatibility_level)
@@ -105,7 +108,9 @@ class KafkaSchemaRegistry:
         self._config.read(self.SCHEMA_CONFIG_API_PATH)
         schema_key = self._config.get(self.SCHEMA_HEADING, self.SCHEMA_KEY)
         schema_secret = self._config.get(self.SCHEMA_HEADING, self.SCHEMA_SECRET)
-        schema_registry = self._config.get(self.SCHEMA_CONFIG_HEADING, self.SCHEMA_CONFIG_KEY)
+        schema_registry = self._config.get(
+            self.SCHEMA_CONFIG_HEADING, self.SCHEMA_CONFIG_KEY
+        )
         self._schema_client = SchemaRegistryClient(
             {
                 "url": schema_registry,
