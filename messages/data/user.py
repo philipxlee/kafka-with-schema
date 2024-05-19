@@ -9,7 +9,7 @@ class User:
     It contains information about the user, such as the user ID, name, age, and email.
     """
 
-    def __init__(self, data: tuple) -> None:
+    def __init__(self, data: dict) -> None:
         """Initializes the User object."""
         self._name = data["name"]
         self._user_id = data["user_id"]

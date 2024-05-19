@@ -1,6 +1,7 @@
 from messages.producer.abstract_producer import AbstractProducer
 from config.schema_registry import KafkaSchemaRegistry
 from typing import override
+from messages.data.user import User
 from confluent_kafka.schema_registry.avro import AvroSerializer
 from confluent_kafka import KafkaException
 from confluent_kafka.serialization import (
@@ -21,11 +22,11 @@ class AvroProducer(AbstractProducer):
     It creates a new producer instance and sends a message to the specified topic.
     """
 
-    def __init__(self):
+    def __init__(self, topic_name: str) -> None:
         """Initializes the AvroProducer object."""
-        super().__init__()
+        super().__init__(topic_name)
         self._logger = logging.getLogger(__name__)
-        self._schema_registry = KafkaSchemaRegistry()
+        self._schema_registry = KafkaSchemaRegistry(topic_name)
         self._schema_registry_client = self._schema_registry.schema_client
         self._avro_serializer = None
         self._string_serializer = None
@@ -46,15 +47,13 @@ class AvroProducer(AbstractProducer):
         try:
             byte_value = (
                 self._avro_serializer(
-                    value, SerializationContext(topic, MessageField.VLAUE)
+                    value, SerializationContext(topic, MessageField.VALUE)
                 )
                 if value is not None
                 else None
             )
             self.producer.produce(
-                topic=topic,
-                key=self._string_serializer(key),
-                value=byte_value
+                topic=topic, key=self._string_serializer(key), value=byte_value
             )
             self._logger.info(f"Message sent to topic '{topic}'.")
         except KafkaException as e:
@@ -63,6 +62,7 @@ class AvroProducer(AbstractProducer):
     @override
     def _configure_serializers(self):
         """Configures the serializers for the producer."""
-        schema_str = self._schema_registry.schema
+        schema_str = self._schema_registry.get_schema_str()
         self._avro_serializer = AvroSerializer(self._schema_registry_client, schema_str)
         self._string_serializer = StringSerializer("utf-8")
+

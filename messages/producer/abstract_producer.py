@@ -11,10 +11,12 @@ class AbstractProducer(ABC):
     allowing subclasses to specify the type of schema or serialization format to use.
     """
 
-    def __init__(self):
+    def __init__(self, topic_name: str) -> None:
         """Initializes the KafkaProducer object."""
-        self._config = KafkaConfig().get_kafka_config()
-        self._producer = Producer(self.config)
+        config_object = KafkaConfig()
+        self._config = config_object.get_kafka_config()
+        self._schema_topic_name = topic_name
+        self._producer = Producer(self._config)
 
     @abstractmethod
     def configure_producer_schema(

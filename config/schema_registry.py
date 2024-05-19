@@ -2,6 +2,7 @@ from confluent_kafka.schema_registry import SchemaRegistryClient, Schema
 from confluent_kafka.schema_registry.error import SchemaRegistryError
 import configparser
 import logging
+import os
 
 logging.basicConfig(level=logging.INFO)
 
@@ -12,8 +13,10 @@ class KafkaSchemaRegistry:
     It reads the configuration from the file and initializes the Schema Registry client.
     """
 
-    SCHEMA_CONFIG_API_PATH: str = "../resources/schema_config.ini"
-    SCHEMA_PATH: str = "../resources/schema.ini"
+    SCHEMA_CONFIG_API_PATH: str = os.path.join(os.path.dirname(__file__), '..', 'resources',
+                                               'schema_config.ini')
+    SCHEMA_PATH: str = os.path.join(os.path.dirname(__file__), '..', 'resources',
+                                    'schema.ini')
     SCHEMA_HEADING: str = "Schema"
     SCHEMA_KEY: str = "key"
     SCHEMA_SECRET: str = "secret"
@@ -21,11 +24,12 @@ class KafkaSchemaRegistry:
     SCHEMA_CONFIG_KEY: str = "url"
     SCHEMA_TYPE: str = "AVRO"
 
-    def __init__(self) -> None:
+    def __init__(self, topic_name) -> None:
         """Initializes the KafkaSchemaRegistry object."""
         self._config = configparser.ConfigParser()
         self._schema_client = None
         self._schema = ""
+        self._schema_topic_name = topic_name
         self.logger = logging.getLogger(__name__)
         self._configure_schema_registry()
 
@@ -33,7 +37,10 @@ class KafkaSchemaRegistry:
         """Registers the Schema with the Schema Registry."""
         try:
             schema_object = Schema(schema, self.SCHEMA_TYPE)
-            schema_id = self._schema_client.register_schema(topic_name, schema_object)
+            schema_id = self._schema_client.register_schema(
+                subject_name=topic_name,
+                schema=schema_object
+            )
             self.logger.info("Schema successfully registered.")
             return schema_id
         except SchemaRegistryError as e:
@@ -48,6 +55,30 @@ class KafkaSchemaRegistry:
         except SchemaRegistryError as e:
             self.logger.error(f"Error setting compatibility level: {e}")
             exit(1)
+
+    def get_schema_id(self):
+        try:
+            schema_version = self._schema_client.get_latest_version(
+                self._schema_topic_name
+            )
+            schema_id = schema_version.schema_id
+            logging.info(
+                f"Schema ID for Schema in {self._schema_topic_name}: {schema_id}"
+            )
+            return schema_id
+        except SchemaRegistryError:
+            return False
+
+    def get_schema_str(self):
+        try:
+            schema_id = self.get_schema_id()
+            if schema_id:
+                schema = self._schema_client.get_schema(schema_id)
+                return schema.schema_str
+            else:
+                return None
+        except SchemaRegistryError as e:
+            logging.error(e)
 
     @property
     def schema_client(self) -> SchemaRegistryClient:

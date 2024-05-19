@@ -1,5 +1,5 @@
 import logging
-
+import os
 logging.basicConfig(level=logging.INFO)
 
 
@@ -9,7 +9,7 @@ class KafkaConfig:
     It reads the configuration from the file and returns it as a dictionary.
     """
 
-    KAFKA_CLIENT_PATH = "../resources/client.properties"
+    KAFKA_CLIENT_PATH = os.path.join(os.path.dirname(__file__), '../resources/client.properties')
     COMMENT_INDICATION = "#"
     EQUAL_SEPARATOR = "="
     SPLIT_LIMIT = 1
