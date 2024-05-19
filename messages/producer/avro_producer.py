@@ -53,7 +53,7 @@ class AvroProducer(AbstractProducer):
                 else None
             )
             self.producer.produce(
-                topic=topic, key=self._string_serializer(key), value=byte_value
+                topic=topic, key=self._string_serializer(str(key)), value=byte_value
             )
             self._logger.info(f"Message sent to topic '{topic}'.")
         except KafkaException as e:
