@@ -5,8 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="161ecc60-34bd-4c9c-b73e-f1c3cd707888" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/kafka-with-schema.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/kafka-with-schema.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/messages/producer/abstract_producer.py" beforeDir="false" afterPath="$PROJECT_DIR$/messages/producer/abstract_producer.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/messages/producer/avro_producer.py" beforeDir="false" afterPath="$PROJECT_DIR$/messages/producer/avro_producer.py" afterDir="false" />
@@ -55,7 +53,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1716112263474</updated>
-      <workItem from="1716112264592" duration="675000" />
+      <workItem from="1716112264592" duration="3377000" />
     </task>
     <servers />
   </component>

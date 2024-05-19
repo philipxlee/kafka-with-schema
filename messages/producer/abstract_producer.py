@@ -17,7 +17,9 @@ class AbstractProducer(ABC):
         self._producer = Producer(self.config)
 
     @abstractmethod
-    def configure_producer_schema(self, topic_name: str, schema: str, compatibility_level: str):
+    def configure_producer_schema(
+        self, topic_name: str, schema: str, compatibility_level: str
+    ):
         """Creates a schema registry client."""
         pass
 
@@ -39,3 +41,8 @@ class AbstractProducer(ABC):
     def commit(self):
         """Commits the messages produced by the producer."""
         self._producer.flush()
+
+    @abstractmethod
+    def _configure_serializers(self):
+        """Configures the serializers for the producer."""
+        pass
