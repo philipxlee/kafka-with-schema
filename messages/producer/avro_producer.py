@@ -1,7 +1,6 @@
 from messages.producer.abstract_producer import AbstractProducer
 from config.schema_registry import KafkaSchemaRegistry
 from typing import override
-from messages.data.user import User
 from confluent_kafka.schema_registry.avro import AvroSerializer
 from confluent_kafka import KafkaException
 from confluent_kafka.serialization import (
